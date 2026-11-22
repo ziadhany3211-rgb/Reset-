@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My 30-day reset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#f5f1ff;--card:#fff;--ink:#1c1240;--mute:#6a5c9a;--empty:#eee8fb;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#120a2b;--card:#1d1245;--ink:#f6f1ff;--mute:#b6a8e6;--empty:#2b1e5e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#120a2b;--card:#1d1245;--ink:#f6f1ff;--mute:#b6a8e6;--empty:#2b1e5e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.4 Cairo,system-ui,"Segoe UI",Tahoma,sans-serif}
+header{margin:12px;padding:18px;border-radius:22px;color:#fff;background:linear-gradient(120deg,#6d28d9,#be185d 55%,#c2410c)}
+h1{margin:0;font-size:30px;font-weight:800;line-height:1.1}
+header p{margin:4px 0 0}
+.top{display:flex;align-items:center;gap:16px;margin-top:16px}
+.big{font-size:46px;font-weight:800;line-height:1;white-space:nowrap}
+.big small{font-size:18px;font-weight:600;opacity:.9}
+.mid{flex:1}
+.bar{height:10px;border-radius:9px;background:rgba(255,255,255,.3);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#fff;border-radius:9px;transition:width .3s}
+.cap{margin-top:6px;font-size:13px}
+.hint{margin:0 16px 10px;color:var(--mute);font-size:13px;max-width:60ch}
+.wrap{margin:0 12px;border-radius:18px;background:var(--card);overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 0 8px}
+table{border-collapse:separate;border-spacing:3px;min-width:max-content}
+th,td{padding:0;text-align:center}
+th.l,td.l{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;width:134px;min-width:134px;max-width:134px;padding:0 8px 0 10px;font-weight:600;font-size:13px;line-height:1.15;box-shadow:6px 0 6px -6px rgba(0,0,0,.3)}
+td.l small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+td.g{font-weight:800;font-size:14px;height:26px;vertical-align:bottom}
+td.gl{height:3px;padding:0;border-radius:3px;vertical-align:bottom}
+th.d{min-width:34px;height:24px;font-size:11px;font-weight:600;color:var(--mute)}
+th.d.t{background:#be185d;color:#fff;border-radius:8px}
+td.c{width:34px;height:34px;border-radius:9px;background:var(--empty);cursor:pointer;font-size:17px;font-weight:800;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3);-webkit-tap-highlight-color:transparent}
+td.c.on{background:var(--c)}
+td.c.t{box-shadow:inset 0 0 0 2px var(--ink)}
+td.c.f{opacity:.35;pointer-events:none}
+td.c:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:1px}
+td.n input{width:34px;height:34px;padding:0;border:0;border-radius:9px;background:var(--empty);color:var(--ink);text-align:center;font:600 13px Cairo,system-ui,sans-serif;-moz-appearance:textfield}
+td.n input::-webkit-outer-spin-button,td.n input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+td.n input.has{background:var(--c);color:#fff}
+td.n input:disabled{opacity:.35}
+td.s{font-size:12px;font-weight:800;color:var(--mute);height:20px}
+td.bw div{height:64px;display:flex;align-items:flex-end;border-radius:9px;background:var(--empty);overflow:hidden}
+td.bw i{display:block;width:100%;background:linear-gradient(#f97316,#be185d,#6d28d9)}
+.foot{margin:12px 16px 20px;text-align:center}
+.foot button{background:none;border:0;padding:8px;color:var(--mute);font:600 13px Cairo,system-ui,sans-serif;text-decoration:underline;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>My 30-day reset</h1>
+<p>Discipline now, engineering later, in sha Allah.</p>
+<div class="top"><div class="big" id="sc"></div><div class="mid"><div class="bar"><i id="pb"></i></div><div class="cap" id="cp"></div></div></div>
+</header>
+<p class="hint">Tick what you did. On the “No…” rows, tick when you stayed away. Type your hours for phone and sleep.</p>
+<div class="wrap" id="w"><div id="g"></div></div>
+<p class="foot"><button id="rs" type="button">Restart the 30 days</button></p>
+<script>
+const H=[
+["pray","Prayers","الصلاة","#16a34a","b"],
+["quran","Quran","القرآن","#0d9488","b"],
+["am","Morning azkar","أذكار الصباح","#f59e0b","b"],
+["pm","Night azkar","أذكار المساء","#7c3aed","b"],
+["study","Study","المذاكرة","#2563eb","b"],
+["gym","Exercise","التمرين","#ea580c","b"],
+["water","Water, 3 L","المياه","#0ea5e9","b"],
+["thx","Gratitude","الشكر","#db2777","b"],
+["music","No music","مفيش موسيقى","#dc2626","q"],
+["gaze","Guard my gaze","غض البصر","#be123c","q"],
+["doom","No doomscrolling","مفيش سكرول","#a21caf","q"]];
+const N=[["phone","Phone hours","ساعات الموبايل","#65a30d"],["sleep","Sleep hours","النوم","#4f46e5"]];
+const $=s=>document.querySelector(s),w=$("#w"),g=$("#g"),LS="reset30";
+function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function utc(s){const p=s.split("-");return Date.UTC(+p[0],p[1]-1,+p[2])}
+function fresh(){const h={},n={};H.forEach(r=>h[r[0]]="0".repeat(30));N.forEach(r=>n[r[0]]=Array(30).fill(""));return{s:ymd(new Date()),h,n}}
+function norm(v){const f=fresh(),o={s:v.s||f.s,h:{},n:{}};
+H.forEach(r=>{const a=v.h&&v.h[r[0]];o.h[r[0]]=typeof a=="string"&&a.length==30?a:f.h[r[0]]});
+N.forEach(r=>{const a=v.n&&v.n[r[0]];o.n[r[0]]=Array.isArray(a)&&a.length==30?a:f.n[r[0]]});return o}
+function load(){try{const v=JSON.parse(localStorage.getItem(LS));if(v&&typeof v=="object")return norm(v)}catch(e){}return fresh()}
+let S=load(),timer,docRef=null,armed=0,first=true;
+const idx=()=>Math.floor((utc(ymd(new Date()))-utc(S.s))/864e5);
+function push(){if(docRef)docRef.set(S).catch(()=>{})}
+function save(){try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}clearTimeout(timer);timer=setTimeout(push,700)}
+const grp=(n,c)=>`<tr><td class="l g" style="color:${c}">${n}</td><td colspan="30" class="gl" style="background:${c}"></td></tr>`;
+function hrow(r,t){let x=`<tr style="--c:${r[3]}"><td class="l">${r[1]}<small dir="rtl">${r[2]}</small></td>`;
+for(let d=0;d<30;d++){const on=S.h[r[0]][d]=="1";
+x+=`<td class="c${on?" on":""}${d>t?" f":""}${d==t?" t":""}" role="checkbox" tabindex="0" aria-checked="${on}" aria-label="${r[1]}, day ${d+1}" data-h="${r[0]}" data-d="${d}">${on?"✓":""}</td>`}
+return x+"</tr>"}
+function nrow(r,t){let x=`<tr style="--c:${r[3]}"><td class="l">${r[1]}<small dir="rtl">${r[2]}</small></td>`;
+for(let d=0;d<30;d++){const v=S.n[r[0]][d];
+x+=`<td class="n"><input type="number" inputmode="decimal" step="0.5" min="0" max="24" value="${v}" class="${v!==""?"has":""}" aria-label="${r[1]}, day ${d+1}" data-n="${r[0]}" data-d="${d}"${d>t?" disabled":""}></td>`}
+return x+"</tr>"}
+function render(){
+const x=w.scrollLeft,t=idx(),done=t>=30,cur=Math.min(Math.max(t,0),29),sc=[];
+for(let d=0;d<30;d++)sc.push(H.filter(r=>S.h[r[0]][d]=="1").length);
+let h='<table><tr><th class="l"></th>';
+for(let d=0;d<30;d++)h+=`<th class="d${d==t?" t":""}">${d+1}</th>`;
+h+="</tr>"+grp("Build","#16a34a");
+H.filter(r=>r[4]=="b").forEach(r=>h+=hrow(r,t));
+h+=grp("Quit","#dc2626");
+H.filter(r=>r[4]=="q").forEach(r=>h+=hrow(r,t));
+h+=grp("Hours","#4f46e5");
+N.forEach(r=>h+=nrow(r,t));
+h+=`<tr><td class="l">Points<small>out of ${H.length}</small></td>`+sc.map((v,d)=>`<td class="s">${d<=t?v:""}</td>`).join("")+"</tr>";
+h+='<tr><td class="l"></td>'+sc.map((v,d)=>`<td class="bw"><div><i style="height:${d<=t?Math.round(v/H.length*100):0}%"></i></div></td>`).join("")+"</tr></table>";
+g.innerHTML=h;w.scrollLeft=first?Math.max(0,cur*37-110):x;first=false;
+const tot=sc.reduce((a,b)=>a+b,0);
+$("#sc").innerHTML=done?`${tot}<small> points</small>`:`${sc[cur]}<small>/${H.length}</small>`;
+$("#pb").style.width=Math.round(tot/(H.length*30)*100)+"%";
+$("#cp").textContent=done?"30 days done. Restart to go again.":`Today, day ${cur+1} of 30. Month so far: ${tot} points.`}
+g.addEventListener("click",e=>{const c=e.target.closest("td.c");if(!c)return;
+const k=c.dataset.h,d=+c.dataset.d,a=S.h[k].split("");a[d]=a[d]=="1"?"0":"1";S.h[k]=a.join("");save();render();
+if(e.detail===0){const n=g.querySelector(`td.c[data-h="${k}"][data-d="${d}"]`);if(n)n.focus()}});
+g.addEventListener("keydown",e=>{if((e.key==" "||e.key=="Enter")&&e.target.matches("td.c")){e.preventDefault();e.target.click()}});
+g.addEventListener("input",e=>{const i=e.target;if(!i.dataset.n)return;const v=i.value;
+S.n[i.dataset.n][+i.dataset.d]=v===""?"":Math.min(24,Math.max(0,+v));i.classList.toggle("has",v!=="");save()});
+$("#rs").onclick=function(){const b=this;
+if(!armed){armed=1;b.textContent="Tap again to erase everything and restart";setTimeout(()=>{armed=0;b.textContent="Restart the 30 days"},4000);return}
+armed=0;S=fresh();first=true;save();render();b.textContent="Restart the 30 days"};
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)render()});
+render();
+(async()=>{try{
+if(!window.claude||!claude.use)return;
+const[d,u]=await Promise.all([claude.use("db"),claude.use("user")]);
+if(!d||!u)return;
+const id=await u.id();if(!id)return;
+docRef=d.collection("data/users/"+id).doc("tracker");
+const snap=await Promise.race([docRef.get(),new Promise((_,j)=>setTimeout(j,10000))]);
+if(snap.exists){const v=snap.data();if(v&&v.h&&v.n){S=norm(v);try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){}render()}}
+else push();
+}catch(e){}})();
+</script>
+</body>
+</html>
